@@ -1,19 +1,8 @@
-const express = require('express');
-const db = require('./data/accounts-model.js')
+const db = require('../helpers/accounts-model.js');
 
-const server = express();
+const router = require('express').Router();
 
-server.use(express.json());
-// your code here
-// server.get('/', (req, res) => {
-//       res.send(`<h1>Is that right, Rambo?</h1>`).json({ message: "nailed it."})
-//       .catch(err => {
-//             console.log(`\nERROR`, err);
-//             res.status(500).json({ error: 'cannot. even.' });
-//       })
-// });
-
-server.get('/', (req, res) => {
+router.get('/', (req, res) => {
       
       db.find()
       .then(accounts => {
@@ -24,7 +13,7 @@ server.get('/', (req, res) => {
       })
 });
 
-server.post('/', (req, res) => { 
+router.post('/', (req, res) => { 
       console.log(req.body)
       db.add(req.body)
       .then(account => {
@@ -36,7 +25,7 @@ server.post('/', (req, res) => {
       })
 });
 
-server.get('/:id',  (req, res) => {
+router.get('/:id',  (req, res) => {
       const id = req.params.id;
       
       db.findById(id)
@@ -50,7 +39,7 @@ server.get('/:id',  (req, res) => {
       })
 });
 
-server.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
       const id = req.params.id;
       const { name, budget } = req.body;
             if (! name || !budget) {
@@ -72,7 +61,7 @@ server.put('/:id', (req, res) => {
 });
 
 
-server.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
       try {
             const count = await db.remove(req.params.id);
             if (count > 0) {
@@ -86,6 +75,4 @@ server.delete('/:id', async (req, res) => {
       }
 });
 
-
-
-module.exports = server;
+module.exports = router;
