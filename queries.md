@@ -78,6 +78,11 @@ WHERE Customers.CustomerID = Orders.CustomerID
 GROUP BY City
 
 ## delete all users that have no orders. Should delete 17 (or 18 if you haven't deleted the record added) records.
+
+DELETE FROM Customers
+WHERE Customers.CustomerID NOT IN 
+ (SELECT Orders.CustomerID FROM Orders)
+
 <!-- DELETE FROM customers
 WHERE NULL IN()
 
